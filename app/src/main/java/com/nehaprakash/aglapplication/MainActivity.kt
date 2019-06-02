@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Network call to load the data from server
+    //Network call to load the data from server using Retrofit and RxJAVA
     private fun loadData() {
         try {
             val requestInterface = Retrofit.Builder()
@@ -65,12 +65,13 @@ class MainActivity : AppCompatActivity() {
                 .subscribe(
                     { result ->
                         run {
-                            handleResponse(result)
+                            if(result.isNotEmpty())
+                                handleResponse(result)
                         }
                     },
                     { error ->
                         run {
-                            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg)) + error.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg), error.message), Toast.LENGTH_LONG).show()
 
                         }
                     }
@@ -78,15 +79,16 @@ class MainActivity : AppCompatActivity() {
             )
         } catch (e: Exception) {
             Log.e("MainActivity", this.resources.getString(R.string.error_msg) + e.printStackTrace())
-            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg) + e.message), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg), e.message), Toast.LENGTH_LONG).show()
         }
 
     }
 
 
-    // Function to display data on the screen
+    // Function to extract data from the response
     private fun handleResponse(peopleList: List<People>) {
         headerTv?.text = this.resources.getString(R.string.header)
+        // loop to categorise the cat list by gender
         for (people in peopleList) {
             if (null != people.pets) {
                 if (people.gender == this.resources.getString(R.string.male)) {
@@ -101,17 +103,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        displayData()
+    }
+
+    // function to display data on the screen
+    private fun displayData() {
         maleHeaderTv?.text = resources.getString(R.string.male)
         femaleHeaderTv?.text = resources.getString(R.string.female)
 
         //Method to sort the list
         maleList.sort()
         femaleList.sort()
+
+        // loops to display data according to the gender
         for (male in maleList) {
-            maleListTv?.text = String.format("%s \n %s",maleListTv?.text as String, male)
+            maleListTv?.text = String.format("%s \n %s", maleListTv?.text as String, male)
         }
         for (female in femaleList) {
-            femaleListTv?.text = String.format("%s \n %s",femaleListTv?.text as String, female)
+            femaleListTv?.text = String.format("%s \n %s", femaleListTv?.text as String, female)
         }
     }
 

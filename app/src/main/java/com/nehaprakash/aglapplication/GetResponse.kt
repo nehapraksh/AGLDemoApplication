@@ -5,9 +5,8 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
-
+// Interface to hit the call to the network
 interface GetResponse {
-    @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/people.json")
     fun getResponse() : Observable<List<People>>
 
