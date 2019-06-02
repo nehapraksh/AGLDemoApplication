@@ -65,13 +65,17 @@ class MainActivity : AppCompatActivity() {
                 .subscribe(
                     { result ->
                         run {
-                            if(result.isNotEmpty())
+                            if (result.isNotEmpty())
                                 handleResponse(result)
                         }
                     },
                     { error ->
                         run {
-                            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg), error.message), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this,
+                                String.format("%s %s", this.resources.getString(R.string.error_msg), error.message),
+                                Toast.LENGTH_LONG
+                            ).show()
 
                         }
                     }
@@ -79,7 +83,11 @@ class MainActivity : AppCompatActivity() {
             )
         } catch (e: Exception) {
             Log.e("MainActivity", this.resources.getString(R.string.error_msg) + e.printStackTrace())
-            Toast.makeText(this, String.format("%s %s",this.resources.getString(R.string.error_msg), e.message), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                String.format("%s %s", this.resources.getString(R.string.error_msg), e.message),
+                Toast.LENGTH_LONG
+            ).show()
         }
 
     }
