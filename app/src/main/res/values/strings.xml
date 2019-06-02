@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AGLDemoApp</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="header">List of Cats by Gender</string>
+    <string name="error_msg">Unable to access data </string>
+
+</resources>
